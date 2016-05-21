@@ -3,8 +3,8 @@ import argparse, os, os.path, shutil
 
 
 upstart_template = """
-description "$NAME service runtime"
-author "chris@boddy.im.com"
+description "{} service runtime"
+author "chris@boddy.im"
 
 
 # Start on startup
@@ -21,17 +21,17 @@ respawn
 # expect fork
 
 # Specify working directory
-chdir /root/$HOME_DIRECTORY
+chdir /root/{}
 
 # Specify the process/command to start, e.g.
 script
-        exec bash -c '$RUNTIME_START_CMD'
+        exec bash -c '{}'
 end script
 
 """
 
 def buildUpstart(name, directory, runtime):
-    return upstart_template.replace("$NAME", name).replace("$RUNTIME_START_CMD", runtime).replace("$HOME_DIRECTORY", directory)
+    return upstart_template.format(name, runtime, directory)
 
 def run(args):
     proc = Popen(args) 
